@@ -1,0 +1,286 @@
+{
+  "entities": [
+    {
+      "name": "Invoice",
+      "created_at": true,
+      "updated_at": true,
+      "fields": [
+        {
+          "name": "invoice_number",
+          "type": "varchar",
+          "nullable": false,
+          "isUnique": true,
+          "isIndex": true
+        },
+        {
+          "name": "customer_id",
+          "type": "uuid",
+          "nullable": false,
+          "isIndex": true,
+          "isUnique": true
+        },
+        {
+          "name": "issue_date",
+          "type": "date",
+          "nullable": false,
+          "isIndex": false,
+          "isUnique": true
+        },
+        {
+          "name": "due_date",
+          "type": "date",
+          "nullable": false,
+          "isIndex": false,
+          "isUnique": true
+        },
+        {
+          "name": "total_amount",
+          "type": "decimal",
+          "nullable": false,
+          "isIndex": false,
+          "isUnique": true
+        },
+        {
+          "name": "status",
+          "type": "varchar",
+          "nullable": false,
+          "values": [
+            "pending",
+            "paid",
+            "overdue"
+          ],
+          "isIndex": false,
+          "isUnique": true
+        },
+        {
+          "name": "description",
+          "type": "text",
+          "nullable": true,
+          "isIndex": false,
+          "isUnique": true
+        }
+      ],
+      "indexes": [
+        {
+          "fields": [
+            "invoice_number"
+          ],
+          "unique": true
+        },
+        {
+          "fields": [
+            "customer_id"
+          ],
+          "unique": false
+        }
+      ],
+      "uniques": []
+    },
+    {
+      "name": "Payment",
+      "created_at": true,
+      "updated_at": true,
+      "fields": [
+        {
+          "name": "payment_id",
+          "type": "uuid",
+          "nullable": false,
+          "isUnique": true,
+          "isIndex": true
+        },
+        {
+          "name": "invoice_id",
+          "type": "uuid",
+          "nullable": false,
+          "isIndex": true,
+          "isUnique": true
+        },
+        {
+          "name": "payment_date",
+          "type": "date",
+          "nullable": false,
+          "isIndex": false,
+          "isUnique": true
+        },
+        {
+          "name": "amount",
+          "type": "decimal",
+          "nullable": false,
+          "isIndex": false,
+          "isUnique": true
+        },
+        {
+          "name": "payment_method",
+          "type": "varchar",
+          "nullable": false,
+          "values": [
+            "credit_card",
+            "bank_transfer",
+            "cash"
+          ],
+          "isIndex": false,
+          "isUnique": true
+        },
+        {
+          "name": "status",
+          "type": "varchar",
+          "nullable": false,
+          "values": [
+            "completed",
+            "pending",
+            "failed"
+          ],
+          "isIndex": false,
+          "isUnique": true
+        }
+      ],
+      "indexes": [
+        {
+          "fields": [
+            "payment_id"
+          ],
+          "unique": true
+        },
+        {
+          "fields": [
+            "invoice_id"
+          ],
+          "unique": false
+        }
+      ],
+      "uniques": []
+    },
+    {
+      "name": "Customer",
+      "created_at": true,
+      "updated_at": true,
+      "fields": [
+        {
+          "name": "customer_id",
+          "type": "uuid",
+          "nullable": false,
+          "isUnique": true,
+          "isIndex": true
+        },
+        {
+          "name": "name",
+          "type": "varchar",
+          "nullable": false,
+          "isIndex": false,
+          "isUnique": true
+        },
+        {
+          "name": "email",
+          "type": "varchar",
+          "nullable": false,
+          "isUnique": true,
+          "isIndex": true
+        },
+        {
+          "name": "phone_number",
+          "type": "varchar",
+          "nullable": true,
+          "isIndex": false,
+          "isUnique": true
+        },
+        {
+          "name": "address",
+          "type": "text",
+          "nullable": true,
+          "isIndex": false,
+          "isUnique": true
+        }
+      ],
+      "indexes": [
+        {
+          "fields": [
+            "customer_id"
+          ],
+          "unique": true
+        },
+        {
+          "fields": [
+            "email"
+          ],
+          "unique": true
+        }
+      ],
+      "uniques": []
+    },
+    {
+      "name": "Vendor",
+      "created_at": true,
+      "updated_at": true,
+      "fields": [
+        {
+          "name": "vendor_id",
+          "type": "uuid",
+          "nullable": false,
+          "isUnique": true,
+          "isIndex": true
+        },
+        {
+          "name": "name",
+          "type": "varchar",
+          "nullable": false,
+          "isIndex": false,
+          "isUnique": true
+        },
+        {
+          "name": "email",
+          "type": "varchar",
+          "nullable": false,
+          "isUnique": true,
+          "isIndex": true
+        },
+        {
+          "name": "phone_number",
+          "type": "varchar",
+          "nullable": true,
+          "isIndex": false,
+          "isUnique": true
+        },
+        {
+          "name": "address",
+          "type": "text",
+          "nullable": true,
+          "isIndex": false,
+          "isUnique": true
+        }
+      ],
+      "indexes": [
+        {
+          "fields": [
+            "vendor_id"
+          ],
+          "unique": true
+        },
+        {
+          "fields": [
+            "email"
+          ],
+          "unique": true
+        }
+      ],
+      "uniques": []
+    }
+  ],
+  "relationships": [
+    {
+      "from": "Invoice",
+      "to": "Customer",
+      "type": "ManyToOne"
+    },
+    {
+      "from": "Payment",
+      "to": "Invoice",
+      "type": "ManyToOne"
+    },
+    {
+      "from": "Vendor",
+      "to": "Invoice",
+      "type": "OneToMany"
+    }
+  ],
+  "_removedEntities": []
+}
